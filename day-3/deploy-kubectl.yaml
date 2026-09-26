@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: proxy-kubectl
+  name: proxy-kubectl
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: proxy-kubectl
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: proxy-kubectl
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}

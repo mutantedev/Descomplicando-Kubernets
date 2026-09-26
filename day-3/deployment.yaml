@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+  namespace: giroploy
+spec:
+  replicas: 6
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: proxy-deploy
+  strategy:
+    # type: Recreate           <- Faz que todos os pods caiam de uma vez. 1 linha
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1            # <- Quantidade máxima além do meu limite que pode criar
+      maxUnavailable: 1      # <- de quantos em quantos vai atualizar os pods
+  template:
+    metadata:
+      labels:
+        app: proxy-deploy
+    spec:
+      containers:
+      - image: nginx:1.15.0
+        name: nginx
+        resources:
+          limits:
+            cpu: 0.4
+            memory: 128Mi
+          requests:
+            cpu: 0.2
+            memory: 64Mi
