@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: estrategy-deployment
+  name: estrategy-deployment
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: nginx-estrategy-deploy
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 2
+
+  template:
+    metadata:
+      labels:
+        app: nginx-estrategy-deploy
+    spec:
+      containers:
+      - image: nginx:1.16.0
+        name: nginx
+        resources:
+          limits:
+            cpu: 0.4
+            memory: 128Mi
+          requests:
+            cpu: 0.2
+            memory: 64Mi
+
